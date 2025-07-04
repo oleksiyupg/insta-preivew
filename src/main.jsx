@@ -1,3 +1,6 @@
+// Instagram Grid Preview Web App - FULL VITE PROJECT (FIXED GRID VIEW)
+// Простий інструмент для перегляду 3×3 сітки Instagram
+
 import React, { useState } from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
@@ -20,11 +23,12 @@ function App() {
     setImages(urls);
   };
 
-  const { width, height } = devices[selectedDevice];
+  const { width } = devices[selectedDevice];
 
   return (
     <div className="p-4 space-y-4 font-sans max-w-4xl mx-auto">
       <h1 className="text-3xl font-bold">Instagram Grid Preview</h1>
+
       <div>
         <label className="font-semibold">Оберіть пристрій:</label>
         <select
@@ -37,6 +41,7 @@ function App() {
           ))}
         </select>
       </div>
+
       <input
         type="file"
         multiple
@@ -44,12 +49,16 @@ function App() {
         onChange={handleImageUpload}
         className="border px-3 py-2 rounded"
       />
-      <div className="border shadow rounded overflow-hidden mx-auto bg-white" style={{ width, height }}>
-        <div className="grid grid-cols-3 w-full h-full">
+
+      <div
+        className="border shadow rounded overflow-hidden mx-auto bg-white"
+        style={{ width }}
+      >
+        <div className="grid grid-cols-3">
           {[...Array(9)].map((_, i) => (
             <div
               key={i}
-              className="aspect-square overflow-hidden border border-gray-100 flex items-center justify-center"
+              className="w-full aspect-square overflow-hidden border border-gray-200 flex items-center justify-center"
             >
               {images[i] ? (
                 <img
@@ -58,7 +67,7 @@ function App() {
                   className="object-cover w-full h-full"
                 />
               ) : (
-                <span className="text-gray-400">{i + 1}</span>
+                <span className="text-gray-300 text-sm">{i + 1}</span>
               )}
             </div>
           ))}
