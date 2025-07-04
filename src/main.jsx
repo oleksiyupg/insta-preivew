@@ -1,4 +1,4 @@
-// Instagram Grid Preview Web App - GRID LINES + CROPPING SIMULATION
+// Instagram Grid Preview Web App - FIXED UX FOR SINGLE IMAGE UPLOAD
 
 import React, { useState } from "react";
 import ReactDOM from "react-dom/client";
@@ -14,12 +14,17 @@ const devices = {
 
 function App() {
   const [selectedDevice, setSelectedDevice] = useState("iPhone 15 Pro");
-  const [images, setImages] = useState([]);
+  const [images, setImages] = useState(Array(9).fill(null));
 
   const handleImageUpload = (e) => {
     const files = Array.from(e.target.files);
-    const urls = files.slice(0, 9).map((file) => URL.createObjectURL(file));
-    setImages(urls);
+    const newImages = [...images];
+    files.forEach((file, index) => {
+      if (index < 9) {
+        newImages[index] = URL.createObjectURL(file);
+      }
+    });
+    setImages(newImages);
   };
 
   const { width, height } = devices[selectedDevice];
@@ -54,14 +59,14 @@ function App() {
         style={{ width, height }}
       >
         <div className="grid grid-cols-3 grid-rows-3 w-full h-full">
-          {[...Array(9)].map((_, i) => (
+          {images.map((img, i) => (
             <div
               key={i}
               className="relative overflow-hidden border border-gray-300 flex items-center justify-center"
             >
-              {images[i] ? (
+              {img ? (
                 <img
-                  src={images[i]}
+                  src={img}
                   alt={`preview-${i}`}
                   className="w-full h-full object-cover aspect-square"
                 />
