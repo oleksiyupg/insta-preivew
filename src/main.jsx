@@ -1,4 +1,4 @@
-// Instagram Grid Preview Web App – Version 2.1.0 (UX markers, fixed image placement).
+// Instagram Grid Preview Web App – Version 2.2.0 (Fully fixed grid, clear UI, reset button)
 
 import React, { useState } from "react";
 import ReactDOM from "react-dom/client";
@@ -27,18 +27,22 @@ function App() {
     setImages(newImages);
   };
 
+  const handleClear = () => {
+    setImages(Array(9).fill(null));
+  };
+
   const { width, height } = devices[selectedDevice];
 
   return (
     <div className="p-4 space-y-4 font-sans max-w-4xl mx-auto">
       <h1 className="text-3xl font-bold">
-        Instagram Grid Preview <span className="text-sm font-normal">v2.1.0</span>
+        Instagram Grid Preview <span className="text-sm font-normal">v2.2.0</span>
       </h1>
 
-      <div>
+      <div className="flex items-center gap-4">
         <label className="font-semibold">Оберіть пристрій:</label>
         <select
-          className="ml-2 border px-2 py-1 rounded"
+          className="border px-2 py-1 rounded"
           value={selectedDevice}
           onChange={(e) => setSelectedDevice(e.target.value)}
         >
@@ -46,6 +50,13 @@ function App() {
             <option key={device}>{device}</option>
           ))}
         </select>
+
+        <button
+          onClick={handleClear}
+          className="ml-auto bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+        >
+          Очистити сітку
+        </button>
       </div>
 
       <input
