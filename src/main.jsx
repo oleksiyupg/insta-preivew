@@ -1,16 +1,15 @@
-// Instagram Grid Preview Web App - FULL VITE PROJECT (FIXED GRID VIEW)
-// Простий інструмент для перегляду 3×3 сітки Instagram
+// Instagram Grid Preview Web App - GRID LINES + CROPPING SIMULATION
 
 import React, { useState } from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 
 const devices = {
-  "iPhone 15 Pro": { width: 393, height: 852 },
-  "iPhone 15 Pro Max": { width: 430, height: 932 },
-  "iPhone SE": { width: 375, height: 667 },
-  "Pixel 7": { width: 412, height: 915 },
-  "Galaxy S23": { width: 390, height: 844 }
+  "iPhone 15 Pro": { width: 393, height: 393 },
+  "iPhone 15 Pro Max": { width: 430, height: 430 },
+  "iPhone SE": { width: 375, height: 375 },
+  "Pixel 7": { width: 412, height: 412 },
+  "Galaxy S23": { width: 390, height: 390 }
 };
 
 function App() {
@@ -23,7 +22,7 @@ function App() {
     setImages(urls);
   };
 
-  const { width } = devices[selectedDevice];
+  const { width, height } = devices[selectedDevice];
 
   return (
     <div className="p-4 space-y-4 font-sans max-w-4xl mx-auto">
@@ -51,25 +50,43 @@ function App() {
       />
 
       <div
-        className="border shadow rounded overflow-hidden mx-auto bg-white"
-        style={{ width }}
+        className="relative mx-auto bg-white"
+        style={{ width, height }}
       >
-        <div className="grid grid-cols-3">
+        <div className="grid grid-cols-3 grid-rows-3 w-full h-full">
           {[...Array(9)].map((_, i) => (
             <div
               key={i}
-              className="w-full aspect-square overflow-hidden border border-gray-200 flex items-center justify-center"
+              className="relative overflow-hidden border border-gray-300 flex items-center justify-center"
             >
               {images[i] ? (
                 <img
                   src={images[i]}
                   alt={`preview-${i}`}
-                  className="object-cover w-full h-full"
+                  className="w-full h-full object-cover aspect-square"
                 />
               ) : (
-                <span className="text-gray-300 text-sm">{i + 1}</span>
+                <span className="text-gray-300 text-sm absolute">{i + 1}</span>
               )}
             </div>
+          ))}
+        </div>
+
+        {/* Grid overlay lines */}
+        <div className="absolute top-0 left-0 w-full h-full pointer-events-none z-10">
+          {[1, 2].map((i) => (
+            <div
+              key={`h-${i}`}
+              className="absolute border-t border-dashed border-black/30"
+              style={{ top: `${(i * 100) / 3}%`, width: "100%" }}
+            />
+          ))}
+          {[1, 2].map((i) => (
+            <div
+              key={`v-${i}`}
+              className="absolute border-l border-dashed border-black/30"
+              style={{ left: `${(i * 100) / 3}%`, height: "100%" }}
+            />
           ))}
         </div>
       </div>
