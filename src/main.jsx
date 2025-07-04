@@ -1,4 +1,4 @@
-// Instagram Grid Preview Web App - FIXED UX FOR SINGLE IMAGE UPLOAD
+// Instagram Grid Preview Web App – Version 2.1.0 (UX markers, fixed image placement)
 
 import React, { useState } from "react";
 import ReactDOM from "react-dom/client";
@@ -31,7 +31,9 @@ function App() {
 
   return (
     <div className="p-4 space-y-4 font-sans max-w-4xl mx-auto">
-      <h1 className="text-3xl font-bold">Instagram Grid Preview</h1>
+      <h1 className="text-3xl font-bold">
+        Instagram Grid Preview <span className="text-sm font-normal">v2.1.0</span>
+      </h1>
 
       <div>
         <label className="font-semibold">Оберіть пристрій:</label>
@@ -54,10 +56,7 @@ function App() {
         className="border px-3 py-2 rounded"
       />
 
-      <div
-        className="relative mx-auto bg-white"
-        style={{ width, height }}
-      >
+      <div className="relative mx-auto bg-white" style={{ width, height }}>
         <div className="grid grid-cols-3 grid-rows-3 w-full h-full">
           {images.map((img, i) => (
             <div
