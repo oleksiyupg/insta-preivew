@@ -1,4 +1,4 @@
-// Instagram Grid Preview Web App – Version 3.0.0 (Full Instagram UI Layout + Device Scaling)
+// Instagram Grid Preview Web App – Version 3.1.0 (Accurate Instagram layout, consistent preview sizing)
 
 import React, { useState } from "react";
 import ReactDOM from "react-dom/client";
@@ -30,13 +30,14 @@ function App() {
   };
 
   const { width } = devices[selectedDevice];
-  const postSize = Math.floor((width - 2) / 3); // grid gap = 1px on each side
+  const gridWidth = 339; // fixed Instagram profile grid width (like desktop)
+  const postSize = Math.floor((gridWidth - 2) / 3);
 
   return (
     <div className="bg-neutral-100 min-h-screen flex flex-col items-center py-6">
       <div className="text-center mb-4">
         <h1 className="text-xl font-bold">
-          Instagram Grid Preview <span className="text-sm font-normal">v3.0.0</span>
+          Instagram Grid Preview <span className="text-sm font-normal">v3.1.0</span>
         </h1>
         <div className="mt-2 flex gap-2 justify-center flex-wrap items-center">
           <label className="font-semibold">Оберіть пристрій:</label>
@@ -69,7 +70,7 @@ function App() {
 
       <div
         className="rounded border shadow bg-white"
-        style={{ width }}
+        style={{ width: gridWidth }}
       >
         {/* Imitation of Instagram header */}
         <div className="px-4 py-3 border-b text-left font-bold text-sm">upg.ua</div>
