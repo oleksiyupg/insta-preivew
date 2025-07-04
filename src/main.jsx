@@ -1,15 +1,15 @@
-// Instagram Grid Preview Web App – Version 2.2.0 (Fully fixed grid, clear UI, reset button)
+// Instagram Grid Preview Web App – Version 2.3.0 (Authentic Instagram grid layout, fixed styles)
 
 import React, { useState } from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 
 const devices = {
-  "iPhone 15 Pro": { width: 393, height: 393 },
-  "iPhone 15 Pro Max": { width: 430, height: 430 },
-  "iPhone SE": { width: 375, height: 375 },
-  "Pixel 7": { width: 412, height: 412 },
-  "Galaxy S23": { width: 390, height: 390 }
+  "iPhone 15 Pro": { width: 393 },
+  "iPhone 15 Pro Max": { width: 430 },
+  "iPhone SE": { width: 375 },
+  "Pixel 7": { width: 412 },
+  "Galaxy S23": { width: 390 }
 };
 
 function App() {
@@ -18,11 +18,9 @@ function App() {
 
   const handleImageUpload = (e) => {
     const files = Array.from(e.target.files);
-    const newImages = [...images];
-    files.forEach((file, index) => {
-      if (index < 9) {
-        newImages[index] = URL.createObjectURL(file);
-      }
+    const newImages = Array(9).fill(null);
+    files.slice(0, 9).forEach((file, index) => {
+      newImages[index] = URL.createObjectURL(file);
     });
     setImages(newImages);
   };
@@ -31,15 +29,15 @@ function App() {
     setImages(Array(9).fill(null));
   };
 
-  const { width, height } = devices[selectedDevice];
+  const { width } = devices[selectedDevice];
 
   return (
-    <div className="p-4 space-y-4 font-sans max-w-4xl mx-auto">
-      <h1 className="text-3xl font-bold">
-        Instagram Grid Preview <span className="text-sm font-normal">v2.2.0</span>
+    <div className="p-4 space-y-4 font-sans mx-auto max-w-screen-md">
+      <h1 className="text-2xl font-bold">
+        Instagram Grid Preview <span className="text-sm font-normal">v2.3.0</span>
       </h1>
 
-      <div className="flex items-center gap-4">
+      <div className="flex flex-wrap gap-4 items-center">
         <label className="font-semibold">Оберіть пристрій:</label>
         <select
           className="border px-2 py-1 rounded"
@@ -53,7 +51,7 @@ function App() {
 
         <button
           onClick={handleClear}
-          className="ml-auto bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+          className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
         >
           Очистити сітку
         </button>
@@ -64,46 +62,30 @@ function App() {
         multiple
         accept="image/*"
         onChange={handleImageUpload}
-        className="border px-3 py-2 rounded"
+        className="border px-3 py-2 rounded w-full max-w-md"
       />
 
-      <div className="relative mx-auto bg-white" style={{ width, height }}>
-        <div className="grid grid-cols-3 grid-rows-3 w-full h-full">
-          {images.map((img, i) => (
-            <div
-              key={i}
-              className="relative overflow-hidden border border-gray-300 flex items-center justify-center"
-            >
-              {img ? (
-                <img
-                  src={img}
-                  alt={`preview-${i}`}
-                  className="w-full h-full object-cover aspect-square"
-                />
-              ) : (
-                <span className="text-gray-300 text-sm absolute">{i + 1}</span>
-              )}
-            </div>
-          ))}
-        </div>
-
-        {/* Grid overlay lines */}
-        <div className="absolute top-0 left-0 w-full h-full pointer-events-none z-10">
-          {[1, 2].map((i) => (
-            <div
-              key={`h-${i}`}
-              className="absolute border-t border-dashed border-black/30"
-              style={{ top: `${(i * 100) / 3}%`, width: "100%" }}
-            />
-          ))}
-          {[1, 2].map((i) => (
-            <div
-              key={`v-${i}`}
-              className="absolute border-l border-dashed border-black/30"
-              style={{ left: `${(i * 100) / 3}%`, height: "100%" }}
-            />
-          ))}
-        </div>
+      <div
+        className="grid grid-cols-3 gap-[1px] bg-black"
+        style={{ width, aspectRatio: "1 / 1" }}
+      >
+        {images.map((img, i) => (
+          <div
+            key={i}
+            className="bg-white flex items-center justify-center overflow-hidden"
+            style={{ aspectRatio: "1 / 1" }}
+          >
+            {img ? (
+              <img
+                src={img}
+                alt={`preview-${i}`}
+                className="object-cover w-full h-full"
+              />
+            ) : (
+              <span className="text-gray-300 text-sm">{i + 1}</span>
+            )}
+          </div>
+        ))}
       </div>
     </div>
   );
