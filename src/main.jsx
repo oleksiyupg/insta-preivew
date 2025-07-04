@@ -1,4 +1,4 @@
-// Instagram Grid Preview Web App – Version 2.1.0 (UX markers, fixed image placement)
+// Instagram Grid Preview Web App – Version 2.1.0 (UX markers, fixed image placement).
 
 import React, { useState } from "react";
 import ReactDOM from "react-dom/client";
