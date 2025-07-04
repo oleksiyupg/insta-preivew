@@ -1,4 +1,4 @@
-// Instagram Grid Preview Web App – Version 2.3.0 (Authentic Instagram grid layout, fixed styles)
+// Instagram Grid Preview Web App – Version 3.0.0 (Full Instagram UI Layout + Device Scaling)
 
 import React, { useState } from "react";
 import ReactDOM from "react-dom/client";
@@ -30,62 +30,72 @@ function App() {
   };
 
   const { width } = devices[selectedDevice];
+  const postSize = Math.floor((width - 2) / 3); // grid gap = 1px on each side
 
   return (
-    <div className="p-4 space-y-4 font-sans mx-auto max-w-screen-md">
-      <h1 className="text-2xl font-bold">
-        Instagram Grid Preview <span className="text-sm font-normal">v2.3.0</span>
-      </h1>
+    <div className="bg-neutral-100 min-h-screen flex flex-col items-center py-6">
+      <div className="text-center mb-4">
+        <h1 className="text-xl font-bold">
+          Instagram Grid Preview <span className="text-sm font-normal">v3.0.0</span>
+        </h1>
+        <div className="mt-2 flex gap-2 justify-center flex-wrap items-center">
+          <label className="font-semibold">Оберіть пристрій:</label>
+          <select
+            className="border px-2 py-1 rounded"
+            value={selectedDevice}
+            onChange={(e) => setSelectedDevice(e.target.value)}
+          >
+            {Object.keys(devices).map((device) => (
+              <option key={device}>{device}</option>
+            ))}
+          </select>
 
-      <div className="flex flex-wrap gap-4 items-center">
-        <label className="font-semibold">Оберіть пристрій:</label>
-        <select
-          className="border px-2 py-1 rounded"
-          value={selectedDevice}
-          onChange={(e) => setSelectedDevice(e.target.value)}
-        >
-          {Object.keys(devices).map((device) => (
-            <option key={device}>{device}</option>
-          ))}
-        </select>
+          <button
+            onClick={handleClear}
+            className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+          >
+            Очистити сітку
+          </button>
+        </div>
 
-        <button
-          onClick={handleClear}
-          className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
-        >
-          Очистити сітку
-        </button>
+        <input
+          type="file"
+          multiple
+          accept="image/*"
+          onChange={handleImageUpload}
+          className="mt-3 border px-3 py-2 rounded"
+        />
       </div>
 
-      <input
-        type="file"
-        multiple
-        accept="image/*"
-        onChange={handleImageUpload}
-        className="border px-3 py-2 rounded w-full max-w-md"
-      />
-
       <div
-        className="grid grid-cols-3 gap-[1px] bg-black"
-        style={{ width, aspectRatio: "1 / 1" }}
+        className="rounded border shadow bg-white"
+        style={{ width }}
       >
-        {images.map((img, i) => (
-          <div
-            key={i}
-            className="bg-white flex items-center justify-center overflow-hidden"
-            style={{ aspectRatio: "1 / 1" }}
-          >
-            {img ? (
-              <img
-                src={img}
-                alt={`preview-${i}`}
-                className="object-cover w-full h-full"
-              />
-            ) : (
-              <span className="text-gray-300 text-sm">{i + 1}</span>
-            )}
-          </div>
-        ))}
+        {/* Imitation of Instagram header */}
+        <div className="px-4 py-3 border-b text-left font-bold text-sm">upg.ua</div>
+
+        {/* Grid section */}
+        <div className="grid grid-cols-3 gap-[1px] bg-black">
+          {images.map((img, i) => (
+            <div
+              key={i}
+              className="bg-white overflow-hidden"
+              style={{ width: postSize, height: postSize }}
+            >
+              {img ? (
+                <img
+                  src={img}
+                  alt={`preview-${i}`}
+                  className="object-cover w-full h-full"
+                />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center text-gray-300 text-sm">
+                  {i + 1}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
